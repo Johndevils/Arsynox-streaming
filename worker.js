@@ -1,5 +1,5 @@
-//* https://github.com/Johndevils/Arsynox-streaming
-//* Credit:- Arsynox
+//*https://github.com/Johndevils/Arsynox-streaming
+//* credit:- Arsynox 
 export default {
   async fetch(request) {
     const html = `
@@ -9,6 +9,10 @@ export default {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arsynox Streaming</title>
+    
+    <!-- Custom Favicon Added -->
+    <link rel="icon" type="image/jpeg" href="https://arsynoxhash.dpdns.org/file/BQACAgUAAyEGAAS6vrhKAANSaR85MpXXVeyTdufCOZpnhj3tDw0AAigZAAJxFflU1lEh0pS0eNE2BA.jpg">
+
     <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- HLS.js for streaming -->
