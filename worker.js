@@ -74,7 +74,7 @@ export default {
             type="text" 
             id="videoUrl" 
             class="flex-1 bg-transparent text-white placeholder-slate-500 px-4 py-3 focus:outline-none rounded-xl"
-            placeholder="https://..."
+            placeholder="Paste your url here"
         >
         <button 
             onclick="processAndPlay()"
