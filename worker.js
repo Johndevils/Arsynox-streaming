@@ -56,7 +56,7 @@ export default {
     <header class="w-full max-w-6xl flex justify-between items-center py-6 px-6 z-20">
         <div class="flex items-center gap-3">
             <h1 class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500 tracking-tight">
-                Arsynox
+                Arsynox streaming 
             </h1>
         </div>
 
