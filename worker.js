@@ -1,5 +1,5 @@
-// https://github.com/Johndevils/Arsynox-streaming
-
+//* https://github.com/Johndevils/Arsynox-streaming
+//* Credit:- Arsynox
 export default {
   async fetch(request) {
     const html = `
@@ -29,14 +29,29 @@ export default {
         }
     </script>
     <style>
-        /* Custom Slider Thumb for Progress Bar logic if needed, 
-           but we are using div based progress for custom look */
-        .video-group:hover .controls-overlay,
+        /* Hide native controls */
+        video::-webkit-media-controls { display: none !important; }
+
+        /* --- Auto Hide Logic --- */
+        .controls-overlay {
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        /* 1. Video Paused hai to controls dikhao */
         .video-group.paused .controls-overlay {
+            opacity: 1 !important;
+        }
+
+        /* 2. User active hai (hover kar raha hai aur idle nahi hai) to controls dikhao */
+        .video-group:not(.user-idle):hover .controls-overlay {
             opacity: 1;
         }
-        /* Hide native controls just in case */
-        video::-webkit-media-controls { display: none !important; }
+
+        /* 3. Agar User Idle hai (video chal rahi hai aur mouse nahi hil raha), to cursor hide karo */
+        .video-group.user-idle {
+            cursor: none;
+        }
     </style>
 </head>
 <body class="bg-slate-900 text-slate-100 font-sans min-h-screen flex flex-col items-center py-10 px-4">
@@ -67,7 +82,8 @@ export default {
     </div>
 
     <!-- Video Player Wrapper -->
-    <div id="videoWrapper" class="relative w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10 group video-group">
+    <!-- Note: 'paused' class added by default -->
+    <div id="videoWrapper" class="relative w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10 group video-group paused">
         
         <!-- Loading Spinner -->
         <div id="spinner" class="absolute inset-0 flex items-center justify-center z-0 hidden">
@@ -78,7 +94,7 @@ export default {
         <video id="mainVideo" class="w-full h-full object-contain cursor-pointer" onclick="togglePlay()"></video>
 
         <!-- Custom Controls Overlay -->
-        <div class="controls-overlay absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent px-4 pb-4 pt-12 opacity-0 transition-opacity duration-300 flex flex-col gap-2 z-10">
+        <div class="controls-overlay absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent px-4 pb-4 pt-12 flex flex-col gap-2 z-10">
             
             <!-- Progress Bar -->
             <div class="group/progress w-full h-1.5 bg-white/20 rounded-full cursor-pointer relative hover:h-2.5 transition-all" onclick="seek(event)">
@@ -149,25 +165,40 @@ export default {
         const iconPlay = '<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
         const iconPause = '<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
 
+        // --- AUTO HIDE CONTROLS LOGIC ---
+        let idleTimer;
+        
+        function resetIdleTimer() {
+            // Controls dikhao (remove user-idle class)
+            wrapper.classList.remove('user-idle');
+            clearTimeout(idleTimer);
+
+            // Agar video paused nahi hai, to 3 second baad hide karo
+            if (!video.paused) {
+                idleTimer = setTimeout(() => {
+                    wrapper.classList.add('user-idle');
+                }, 3000); // 3 Seconds time
+            }
+        }
+
+        // Mouse hilne par timer reset karo
+        wrapper.addEventListener('mousemove', resetIdleTimer);
+        wrapper.addEventListener('click', resetIdleTimer);
+
         // --- Logic: URL Parsing ---
         function processAndPlay() {
             let raw = urlInput.value.trim();
             if(!raw) return;
 
-            // 1. Decode URL (Fixes https%3A%2F%2F)
             let cleanUrl = decodeURIComponent(raw);
-            
-            // Double decode check
             if(cleanUrl.startsWith('http%3A') || cleanUrl.startsWith('https%3A')) {
                 cleanUrl = decodeURIComponent(cleanUrl);
             }
-
-            // 2. Pixeldrain Fix
             if(cleanUrl.includes('pixeldrain.com/u/')) {
                 cleanUrl = cleanUrl.replace('/u/', '/api/file/');
             }
 
-            urlInput.value = cleanUrl; // Show clean URL to user
+            urlInput.value = cleanUrl;
             loadStream(cleanUrl);
         }
 
@@ -191,15 +222,21 @@ export default {
 
         // --- Event Listeners ---
         video.addEventListener('waiting', () => spinner.classList.remove('hidden'));
+        
         video.addEventListener('playing', () => {
             spinner.classList.add('hidden');
-            wrapper.classList.remove('paused');
+            wrapper.classList.remove('paused'); // CSS ko batao video chal rahi hai
             updatePlayBtn();
+            resetIdleTimer(); // Timer shuru karo
         });
+        
         video.addEventListener('pause', () => {
-            wrapper.classList.add('paused');
+            wrapper.classList.add('paused'); // CSS ko batao video ruk gayi hai
             updatePlayBtn();
+            clearTimeout(idleTimer); // Timer band karo, controls dikhao
+            wrapper.classList.remove('user-idle');
         });
+        
         video.addEventListener('timeupdate', updateUI);
         
         // --- Controls Functions ---
@@ -213,6 +250,7 @@ export default {
 
         function skip(val) {
             video.currentTime += val;
+            resetIdleTimer(); // Button dabane par controls gayab na ho
         }
 
         let speeds = [1, 1.25, 1.5, 2, 0.5];
@@ -235,12 +273,8 @@ export default {
 
         function updateUI() {
             if(isNaN(video.duration)) return;
-            
-            // Progress
             const pct = (video.currentTime / video.duration) * 100;
             progressBar.style.width = pct + '%';
-
-            // Time
             document.getElementById('currentTime').innerText = fmt(video.currentTime);
             document.getElementById('duration').innerText = fmt(video.duration);
         }
