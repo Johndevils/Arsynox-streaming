@@ -1,0 +1,6 @@
+name = "arsynox-streaming"
+main = "worker.js"
+compatibility_date = "2024-11-20"
+
+[observability]
+enabled = true
