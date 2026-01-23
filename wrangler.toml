@@ -1,3 +1,27 @@
-name = "arsystream"
+name = "arsynox-streaming"
 main = "worker.js"
 compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+PUBLIC_URL = "https://your-worker-name.your-account.workers.dev"
+TELEGRAM_BOT_USERNAME = "your_bot_username"
+
+[env.production]
+vars = { ENVIRONMENT = "production" }
+
+[env.staging]
+vars = { ENVIRONMENT = "staging" }
+
+# For deployment configuration
+[deployment]
+environments = ["production", "staging"]
+
+# Optional: Add routes if using custom domain
+# [[routes]]
+# pattern = "stream.yourdomain.com/*"
+# zone_name = "yourdomain.com"
+
+# [[routes]]
+# pattern = "*.yourdomain.com/stream/*"
+# zone_name = "yourdomain.com"
