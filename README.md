@@ -10,94 +10,34 @@
 
 ## ✨ Features
 
-- **🚀 Serverless Architecture:** Runs entirely on the edge using Cloudflare Workers.
-- **🎨 Modern UI:** Beautiful Dark Mode interface built with Tailwind CSS (Glassmorphism effects).
-- **⚡ HLS Support:** Native support for `.m3u8` live streams using `hls.js`.
-- **🔗 Smart URL Parsing:**
-  - Automatically decodes encoded URLs (e.g., `https%3A%2F%2F`).
-  - **Pixeldrain Support:** Automatically converts `/u/` links to direct streamable `/api/file/` links.
-- **🎮 Custom Player Controls:**
-  - Play/Pause, Seek (±10s).
-  - Playback Speed Control (0.5x - 2x).
-  - Picture-in-Picture (PiP) Mode.
-  - Fullscreen Toggle.
-- **⌨️ Keyboard Shortcuts:**
-  - `Space`: Play/Pause
-  - `F`: Toggle Fullscreen
-  - `←` / `→`: Seek Backward/Forward
-- **📱 Responsive:** Works perfectly on Desktop, Mobile, and Tablets.
-- **📂 Side Menu:** Includes a drawer menu with a "How to Use" tutorial.
+Based on the code provided, here is the list of Environment Variables (`.env`) you need to configure in your Cloudflare Worker settings:
+
+### 1. Telegram Configuration (Required for Bot & Logging)
+*   **`TELEGRAM_BOT_TOKEN`**
+    *   **Description:** The token you get from @BotFather when you create a new bot.
+    *   **Example:** `123456789:AbCdEfGhIjKlMnOpQrStUvWxYz`
+*   **`TELEGRAM_CHANNEL_ID`**
+    *   **Description:** The numeric ID of the Telegram channel where you want logs to be sent.
+    *   **Note:** The bot must be an admin in this channel. Channel IDs usually start with `-100`.
+    *   **Example:** `-1001234567890`
+*   **`TELEGRAM_BOT_USERNAME`**
+    *   **Description:** Your bot's username (without the `@`). Used in the frontend to generate "Share" links.
+    *   **Example:** `MyStreamBot`
+
+### 2. General Configuration (Optional but Recommended)
+*   **`PUBLIC_URL`**
+    *   **Description:** The actual URL where your worker is deployed.
+    *   **Purpose:** Used for generating correct callback URLs and webhook setups. If not set, the script tries to guess it from the request, but setting it explicitly is more reliable.
+    *   **Example:** `https://stream.your-domain.com`
 
 ---
 
-## 🛠️ Installation & Deployment
-
-You can deploy this project in less than 2 minutes using Cloudflare Wrangler.
-
-### Prerequisites
-- A Cloudflare Account.
-- [Node.js](https://nodejs.org/) installed on your computer.
-- Wrangler CLI installed (`npm install -g wrangler`).
-
-### Step 1: Clone or Create Project
-Create a new directory and navigate into it:
-```bash
-mkdir arsynox-streaming
-cd arsynox-streaming
-```
-
-### Step 2: Create Configuration Files
-
-Create a file named `wrangler.toml` in the root directory and add the following:
-
-```toml
-name = "arsynox-streaming"
-main = "worker.js"
-compatibility_date = "2024-11-20"
-
-[observability]
-enabled = true
-```
-
-Create a file named `worker.js` and paste the **source code** provided in the project.
-
-### Step 3: Deploy to Cloudflare
-
-Login to your Cloudflare account (if not already):
-```bash
-npx wrangler login
-```
-
-Deploy the worker:
-```bash
-npx wrangler deploy
-```
-
-Once deployed, Wrangler will give you a URL (e.g., `https://arsynox-streaming.your-name.workers.dev`). Open it to see your app live!
-
----
-
-## 📖 How to Use
-
-1.  **Open the App:** Navigate to your deployed Worker URL.
-2.  **Paste URL:** Enter a video URL in the input box.
-    *   **Direct Links:** `.mp4`, `.mkv`, `.webm`
-    *   **Streaming:** `.m3u8` (HLS)
-    *   **Pixeldrain:** `https://pixeldrain.com/u/YOUR_ID`
-    *   **Encoded:** `https%3A%2F%2Fexample.com%2Fvideo.mp4`
-3.  **Click Play:** The player will handle the parsing and start streaming immediately.
-
----
-
-## ⌨️ Shortcuts
-
-| Key | Action |
-| :--- | :--- |
-| **Spacebar** | Play / Pause Video |
-| **F** | Enter / Exit Fullscreen |
-| **Right Arrow (→)** | Skip Forward 10 seconds |
-| **Left Arrow (←)** | Rewind Backward 10 seconds |
-
+### How to add these in Cloudflare Dashboard:
+1.  Go to your Worker.
+2.  Click on **Settings** -> **Variables and Secrets**.
+3.  Click **Add**.
+4.  Enter the **Variable name** and **Value** from the list above.
+5.  Click **Deploy**.
 ---
 
 ## 🤝 Credits
