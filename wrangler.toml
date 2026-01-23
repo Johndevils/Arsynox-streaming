@@ -4,8 +4,8 @@ compatibility_date = "2024-01-01"
 compatibility_flags = ["nodejs_compat"]
 
 [vars]
-PUBLIC_URL = "https://your-worker-name.your-account.workers.dev"
-TELEGRAM_BOT_USERNAME = "your_bot_username"
+PUBLIC_URL = "https://stream.arsynoxlabs.de5.net"
+TELEGRAM_BOT_USERNAME = "arsystream_bot"
 
 [env.production]
 vars = { ENVIRONMENT = "production" }
