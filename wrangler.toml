@@ -1,6 +1,43 @@
 name = "arsynox-streaming"
-main = "worker.js"
-compatibility_date = "2024-11-20"
+type = "javascript"
+account_id = "YOUR_ACCOUNT_ID"  # Replace with your Cloudflare account ID
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
 
-[observability]
-enabled = true
+# For Cloudflare Workers Free tier (no KV required)
+main = "./worker.js"
+
+# Variables for the Telegram bot
+[vars]
+PUBLIC_URL = "https://arsynox-streaming.YOUR_SUBDOMAIN.workers.dev"  # Replace with your worker URL
+TELEGRAM_BOT_TOKEN = "YOUR_TELEGRAM_BOT_TOKEN"  # Get from @BotFather
+TELEGRAM_CHANNEL_ID = "YOUR_TELEGRAM_CHANNEL_ID"  # Get channel ID
+TELEGRAM_BOT_USERNAME = "YOUR_BOT_USERNAME"  # Optional, for display
+
+# For paid workers with KV storage (optional for persistent data)
+# [kv_namespaces]
+# binding = "STREAM_LOGS"
+# id = "YOUR_KV_NAMESPACE_ID"
+
+# Triggers (cron jobs for cleanup or maintenance)
+# [triggers]
+# crons = ["0 0 * * *"]  # Daily at midnight
+
+# Routes for custom domain (optional)
+# [[routes]]
+# pattern = "stream.yourdomain.com/*"
+# zone_id = "YOUR_ZONE_ID"
+# custom_domain = true
+
+# Environment variables for different environments
+[env.production]
+name = "arsynox-streaming"
+workers_dev = false  # Use custom domain
+
+[env.staging]
+name = "arsynox-streaming-staging"
+workers_dev = true
+
+[env.dev]
+name = "arsynox-streaming-dev"
+workers_dev = true
