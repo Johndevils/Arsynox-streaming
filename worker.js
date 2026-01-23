@@ -787,7 +787,6 @@ https://cdn.example.com/stream.m3u8</pre>
                 Arsynox Streaming 
             </h1>
             <span class="text-xs px-2 py-1 rounded-full bg-green-900/30 text-green-400 border border-green-800/50" id="loggingStatus">Logging: ${LOGGING_ENABLED ? 'ON' : 'OFF'}</span>
-            <span class="text-xs px-2 py-1 rounded-full bg-blue-900/30 text-blue-400 border border-blue-800/50" id="healthIndicator">🩺 Healthy</span>
         </div>
 
         <!-- Menu Button -->
@@ -842,35 +841,6 @@ https://cdn.example.com/stream.m3u8</pre>
                     </svg>
                     Generate Shareable Link
                 </button>
-                <button onclick="checkHealthStatus()" class="flex items-center gap-2 bg-emerald-700 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl transition-all text-sm">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    Check Health Status
-                </button>
-            </div>
-        </div>
-
-        <!-- Example URLs -->
-        <div class="w-full max-w-3xl mb-6 bg-slate-800/30 rounded-xl p-4 border border-slate-700/30">
-            <h3 class="text-sm font-semibold text-slate-400 mb-2">Example URLs (All Supported):</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
-                <div class="bg-slate-900/50 p-2 rounded">
-                    <code class="text-slate-300 break-all text-[10px]">https://pub-acc4e415386945919ae2763dbdd2270d.r2.dev/...?token=...</code>
-                    <p class="text-slate-500 text-[10px] mt-1">R2 Storage with token</p>
-                </div>
-                <div class="bg-slate-900/50 p-2 rounded">
-                    <code class="text-slate-300 break-all text-[10px]">media.mp4</code>
-                    <p class="text-slate-500 text-[10px] mt-1">Relative file path</p>
-                </div>
-                <div class="bg-slate-900/50 p-2 rounded">
-                    <code class="text-slate-300 break-all text-[10px]">https://example.com/video.m3u8</code>
-                    <p class="text-slate-500 text-[10px] mt-1">HLS Stream</p>
-                </div>
-                <div class="bg-slate-900/50 p-2 rounded">
-                    <code class="text-slate-300 break-all text-[10px]">https://cdn.example.com/video.mp4?key=abc</code>
-                    <p class="text-slate-500 text-[10px] mt-1">CDN with key</p>
-                </div>
             </div>
         </div>
 
@@ -921,7 +891,7 @@ https://cdn.example.com/stream.m3u8</pre>
 
     <!-- Footer -->
     <footer class="w-full py-6 text-center border-t border-slate-800/50 mt-8">
-        <p class="text-slate-500 text-sm font-medium">&copy;2025 Arsynox Streaming | <a href="/health" class="text-blue-400 hover:underline">Health Status</a></p>
+        <p class="text-slate-500 text-sm font-medium">&copy;2025 Arsynox Streaming</p>
         ${TELEGRAM_BOT_TOKEN ? `
         <p class="text-slate-600 text-xs mt-2">Telegram Bot: @${env.TELEGRAM_BOT_USERNAME || 'arsystream_bot'} | Supports ALL video URLs</p>
         ` : ''}
@@ -937,11 +907,6 @@ https://cdn.example.com/stream.m3u8</pre>
         </div>
         
         <nav class="flex flex-col gap-4">
-            <button onclick="openTutorial(); toggleMenu()" class="flex items-center gap-3 text-slate-300 hover:text-primary hover:bg-slate-700/50 p-3 rounded-xl transition-all text-left">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span class="font-medium">How to Use</span>
-            </button>
-
             ${TELEGRAM_BOT_TOKEN ? `
             <button onclick="openTelegramBot(); toggleMenu()" class="flex items-center gap-3 text-slate-300 hover:text-primary hover:bg-slate-700/50 p-3 rounded-xl transition-all text-left">
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -950,14 +915,6 @@ https://cdn.example.com/stream.m3u8</pre>
                 <span class="font-medium">Telegram Bot</span>
             </button>
             ` : ''}
-
-            <button onclick="checkHealthStatus(); toggleMenu()" class="flex items-center gap-3 text-slate-300 hover:text-primary hover:bg-slate-700/50 p-3 rounded-xl transition-all text-left">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                <span class="font-medium">Health Status</span>
-                <span id="menuHealthStatus" class="text-xs px-2 py-1 rounded-full bg-green-900/30 text-green-400">OK</span>
-            </button>
 
             <button onclick="toggleLogging(); toggleMenu()" class="flex items-center gap-3 text-slate-300 hover:text-primary hover:bg-slate-700/50 p-3 rounded-xl transition-all text-left">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -976,46 +933,6 @@ https://cdn.example.com/stream.m3u8</pre>
         <div class="mt-auto pt-6 border-t border-slate-700">
             <p class="text-xs text-slate-500">Version 2.6.0</p>
             <p class="text-xs text-slate-600 mt-1">Health: OK | Mute/Unmute Added</p>
-        </div>
-    </div>
-
-    <!-- TUTORIAL MODAL -->
-    <div id="tutorialModal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
-        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-8 max-w-md w-full shadow-2xl relative transform scale-95 transition-transform">
-            <button onclick="closeTutorial()" class="absolute top-4 right-4 text-slate-400 hover:text-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
-            <h2 class="text-2xl font-bold text-white mb-4">How to Use</h2>
-            <div class="space-y-4 text-slate-300 text-sm">
-                <div class="bg-slate-900/50 p-3 rounded-lg">
-                    <h3 class="font-semibold text-white mb-1">Supported Formats</h3>
-                    <p>• <strong>ALL video URLs</strong> are supported</p>
-                    <p>• HLS (.m3u8), MP4, MKV, AVI, MOV, WebM</p>
-                    <p>• R2.dev storage links with tokens</p>
-                    <p>• CDN links with tokens/keys</p>
-                    <p>• Relative paths (media.mp4)</p>
-                </div>
-                <div class="bg-slate-900/50 p-3 rounded-lg">
-                    <h3 class="font-semibold text-white mb-1">Controls</h3>
-                    <p class="flex justify-between"><span>Play/Pause</span> <kbd class="bg-slate-700 px-1 rounded text-xs">Space</kbd></p>
-                    <p class="flex justify-between"><span>Mute/Unmute</span> <kbd class="bg-slate-700 px-1 rounded text-xs">M</kbd></p>
-                    <p class="flex justify-between"><span>Fullscreen</span> <kbd class="bg-slate-700 px-1 rounded text-xs">F</kbd></p>
-                    <p class="flex justify-between"><span>Seek</span> <kbd class="bg-slate-700 px-1 rounded text-xs">Arrows</kbd></p>
-                </div>
-                <div class="bg-slate-900/50 p-3 rounded-lg">
-                    <h3 class="font-semibold text-white mb-1">Health Check</h3>
-                    <p>• Visit <code>/health</code> endpoint</p>
-                    <p>• Shows service status</p>
-                    <p>• Useful for monitoring</p>
-                </div>
-                ${TELEGRAM_BOT_TOKEN ? `
-                <div class="bg-slate-900/50 p-3 rounded-lg">
-                    <h3 class="font-semibold text-white mb-1">Telegram Bot</h3>
-                    <p>• Use <code>/stream &lt;any-url&gt;</code> command</p>
-                    <p>• Or just send any video URL directly</p>
-                    <p>• Supports R2.dev, FSL CDN, Token-based URLs, etc.</p>
-                </div>
-                ` : ''}
-            </div>
-            <button onclick="closeTutorial()" class="w-full mt-6 bg-primary hover:bg-primaryDark text-white py-2 rounded-xl font-bold">Got it!</button>
         </div>
     </div>
 
@@ -1062,7 +979,6 @@ https://cdn.example.com/stream.m3u8</pre>
         const urlInput = document.getElementById('videoUrl');
         const sideMenu = document.getElementById('sideMenu');
         const menuOverlay = document.getElementById('menuOverlay');
-        const tutorialModal = document.getElementById('tutorialModal');
         const telegramModal = document.getElementById('telegramModal');
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toastMessage');
@@ -1071,8 +987,6 @@ https://cdn.example.com/stream.m3u8</pre>
         const muteIcon = document.getElementById('muteIcon');
         const volumeSlider = document.getElementById('volumeSlider');
         const volumeValue = document.getElementById('volumeValue');
-        const healthIndicator = document.getElementById('healthIndicator');
-        const menuHealthStatus = document.getElementById('menuHealthStatus');
 
         const iconPlay = '<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
         const iconPause = '<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
@@ -1080,40 +994,6 @@ https://cdn.example.com/stream.m3u8</pre>
         // Mute/Unmute icons
         const iconUnmuted = '<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M14.667 12v1.333c0 1.013-.82 1.333-1.333 1.333h-2.667v-4h2.667c.513 0 1.333.32 1.333 1.333zm4-5.333v10.666c0 .367-.3.667-.667.667h-1.333l-2.667-2.667h-2.667c-.733 0-1.333-.6-1.333-1.333v-2l-4 3.997v-9.337l4 3.997v-2c0-.733.6-1.333 1.333-1.333h2.667l2.667-2.667h1.333c.367 0 .667.3.667.667z"/></svg>';
         const iconMuted = '<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51c.66-1.24 1.03-2.65 1.03-4.15 0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>';
-
-        // --- HEALTH CHECK ---
-        async function checkHealthStatus() {
-            try {
-                const response = await fetch('/health');
-                const data = await response.json();
-                
-                if (data.status === 'OK') {
-                    showToast('Service is healthy!', 'success');
-                    healthIndicator.innerHTML = '🩺 Healthy';
-                    healthIndicator.className = 'text-xs px-2 py-1 rounded-full bg-green-900/30 text-green-400 border border-green-800/50';
-                    
-                    if (menuHealthStatus) {
-                        menuHealthStatus.innerHTML = 'OK';
-                        menuHealthStatus.className = 'text-xs px-2 py-1 rounded-full bg-green-900/30 text-green-400';
-                    }
-                } else {
-                    showToast('Service has issues', 'error');
-                    healthIndicator.innerHTML = '🩺 Issues';
-                    healthIndicator.className = 'text-xs px-2 py-1 rounded-full bg-red-900/30 text-red-400 border border-red-800/50';
-                }
-                
-                console.log('Health check:', data);
-                return data;
-            } catch (error) {
-                showToast('Health check failed', 'error');
-                healthIndicator.innerHTML = '🩺 Offline';
-                healthIndicator.className = 'text-xs px-2 py-1 rounded-full bg-red-900/30 text-red-400 border border-red-800/50';
-                return null;
-            }
-        }
-
-        // Auto-check health on page load
-        setTimeout(checkHealthStatus, 1000);
 
         // --- MUTE/UNMUTE FUNCTIONS ---
         function toggleMute() {
@@ -1210,22 +1090,6 @@ https://cdn.example.com/stream.m3u8</pre>
         telegramModal.addEventListener('click', (e) => { 
             if(e.target === telegramModal) closeTelegramBot(); 
         });
-
-        // --- TUTORIAL LOGIC ---
-        function openTutorial() {
-            tutorialModal.classList.remove('hidden');
-            setTimeout(() => {
-                tutorialModal.classList.remove('opacity-0');
-                tutorialModal.children[0].classList.remove('scale-95');
-                tutorialModal.children[0].classList.add('scale-100');
-            }, 10);
-        }
-        function closeTutorial() {
-            tutorialModal.classList.add('opacity-0');
-            tutorialModal.children[0].classList.add('scale-95');
-            setTimeout(() => tutorialModal.classList.add('hidden'), 300);
-        }
-        tutorialModal.addEventListener('click', (e) => { if(e.target === tutorialModal) closeTutorial(); });
 
         // --- GENERATE SHARE LINK ---
         function generateStreamLink() {
@@ -1579,9 +1443,6 @@ https://cdn.example.com/stream.m3u8</pre>
         // Initialize
         showToast('Welcome to Arsynox Streaming - Supports ALL video URLs!', 'info');
         updateMuteButton(); // Set initial mute button state
-        
-        // Periodically check health (every 30 seconds)
-        setInterval(checkHealthStatus, 30000);
     </script>
     ${prefillScript}
 </body>
