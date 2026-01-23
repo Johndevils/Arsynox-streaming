@@ -1,0 +1,19 @@
+{
+  "name": "arsystream",
+  "version": "2.2.0",
+  "description": "Stream videos with Telegram bot integration",
+  "main": "worker.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy:prod": "wrangler deploy --env production",
+    "tail": "wrangler tail",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": ["streaming", "telegram-bot", "video", "cloudflare-worker"],
+  "author": "Arsynox",
+  "license": "MIT",
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}
