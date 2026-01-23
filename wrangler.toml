@@ -1,6 +1,6 @@
 name = "arsynox-streaming"
 type = "javascript"
-account_id = "YOUR_ACCOUNT_ID"  # Replace with your Cloudflare account ID
+account_id = "d8671d3954cd55778a0db1d42961629d"  # Replace with your Cloudflare account ID
 compatibility_date = "2024-01-01"
 compatibility_flags = ["nodejs_compat"]
 
