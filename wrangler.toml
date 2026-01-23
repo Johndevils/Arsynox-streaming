@@ -10,7 +10,7 @@ main = "./worker.js"
 
 # Variables for the Telegram bot
 [vars]
-PUBLIC_URL = "https://arsynox-streaming.YOUR_SUBDOMAIN.workers.dev"  # Replace with your worker URL
+PUBLIC_URL = "https://stream.arsynoxlabs.de5.net"  # Replace with your worker URL
 TELEGRAM_BOT_TOKEN = "YOUR_TELEGRAM_BOT_TOKEN"  # Get from @BotFather
 TELEGRAM_CHANNEL_ID = "YOUR_TELEGRAM_CHANNEL_ID"  # Get channel ID
 TELEGRAM_BOT_USERNAME = "YOUR_BOT_USERNAME"  # Optional, for display
