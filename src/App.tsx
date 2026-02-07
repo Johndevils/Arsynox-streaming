@@ -3,7 +3,7 @@ import Hls from 'hls.js';
 import { Play, ShieldCheck, AlertTriangle, Tv, Wifi } from 'lucide-react';
 
 // TODO: Paste your Cloudflare Worker URL here
-const WORKER_URL = "https://arsystream-backend.YOUR_SUBDOMAIN.workers.dev";
+const WORKER_URL = "https://cf-video-proxy.metaspace.workers.dev";
 
 function App() {
   const [inputUrl, setInputUrl] = useState('');
